@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from typing import Optional # Optional 임포트 추가
+from typing import Optional
 from datetime import datetime, timedelta
 
 from backend.database import get_db
 from backend.dependencies import get_current_user
-from backend.models import User, Challenge, ChallengeMember, ChallengeCompletionType, TransportMode, ChallengeGoalType
+from backend.models import User, Challenge, ChallengeMember, ChallengeCompletionType, TransportMode
 from backend import schemas
 
 class AICallengeCreateRequest(BaseModel):
@@ -65,4 +65,4 @@ async def create_and_join_ai_challenge(
         }
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"챌린지 생성 중 오류 발생: {e}")
+        raise HTTPException(status_code=500, detail=f"챌린지 생성 중 오류 발생: {str(e)}")
