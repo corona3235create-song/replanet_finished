@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useCredits } from "../contexts/CreditsContext";
+import { useUser } from "../contexts/UserContext"; // useUser 임포트 추가
 import { Link } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import {
@@ -28,7 +29,7 @@ interface Challenge {
 interface DashboardData {
   co2_saved_today: number; // 오늘 절약량 (g)
   eco_credits_earned: number; // 오늘 획득 크레딧
-  garden_level: number; // 정원 레벨
+  // garden_level: number; // 정원 레벨 - UserContext에서 가져오므로 제거
   total_saved: number; // 누적 절약량 (kg)
   total_points: number; // 누적 크레딧
   last7days: DailySaving[];
@@ -42,6 +43,7 @@ const COLORS = ["#1abc9c", "#16a085", "#f39c12", "#e74c3c"];
 
 const DashboardPage: React.FC = () => {
   const { creditsData, addCredits } = useCredits();
+  const { user } = useUser(); // useUser 훅 사용
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,7 +80,7 @@ const DashboardPage: React.FC = () => {
           setData({ // Set default empty data instead of UNIFIED_DATA
             co2_saved_today: 0,
             eco_credits_earned: 0,
-            garden_level: 0,
+            // garden_level: 0, // UserContext에서 가져오므로 제거
             total_saved: 0,
             total_points: 0,
             last7days: [],
@@ -91,7 +93,7 @@ const DashboardPage: React.FC = () => {
         setData({ // Set default empty data instead of UNIFIED_DATA
             co2_saved_today: 0,
             eco_credits_earned: 0,
-            garden_level: 0,
+            // garden_level: 0, // UserContext에서 가져오므로 제거
             total_saved: 0,
             total_points: 0,
             last7days: [],
@@ -167,7 +169,7 @@ const DashboardPage: React.FC = () => {
         <div className="card"><h4>오늘 절약한 탄소</h4><p className="metric">1.85 g</p></div>
         <div className="card"><h4>누적 절약량</h4><p className="metric">18.5 kg</p></div>
           <div className="card"><h4>에코 크레딧</h4><p className="metric">1,240 P</p></div>
-          <div className="card"><h4>정원 레벨</h4><p className="metric">Lv.3 🌱</p></div>
+          <div className="card"><h4>정원 레벨</h4><p className="metric">Lv. {user.gardenLevel} 🌱</p></div>
         </div>
       </div>
     );
@@ -206,7 +208,7 @@ const DashboardPage: React.FC = () => {
         </Link>
         <Link to="/mygarden" className="card clickable-card">
           <h4>정원 레벨</h4>
-          <p className="metric">Lv. {data.garden_level} 🌱</p>
+          <p className="metric">Lv. {user.gardenLevel} 🌱</p>
         </Link>
       </div>
 

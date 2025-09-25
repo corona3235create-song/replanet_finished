@@ -233,7 +233,7 @@ const UserInfo: React.FC = () => {
                   <div className="stat-icon">🏆</div>
                   <div className="stat-info">
                     <span className="stat-label">레벨</span>
-                    <span className="stat-value">Lv.{Math.floor(creditsData.totalCredits / 100) + 1}</span>
+                    <span className="stat-value">Lv.{userData.gardenLevel}</span>
                   </div>
                   <div className="click-hint">🌿 정원 보기</div>
                 </div>

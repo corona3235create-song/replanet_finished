@@ -6,6 +6,7 @@ interface CreditsData {
   totalCarbonReduced: number;
   recentEarned: number;
   lastUpdated: string;
+  gardenLevel: number; // gardenLevel 추가
 }
 
 interface CreditsContextType {
@@ -35,12 +36,13 @@ export const getAuthHeaders = () => {
 };
 
 export const CreditsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user } = useUser(); // Get user from UserContext
+  const { user, updateUser } = useUser(); // Get user and updateUser from UserContext
   const [creditsData, setCreditsData] = useState<CreditsData>({
     totalCredits: 1240, // 기본값
     totalCarbonReduced: 12.4, // 기본값
     recentEarned: 0,
     lastUpdated: new Date().toISOString(),
+    gardenLevel: 1, // 기본값
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +69,7 @@ export const CreditsProvider: React.FC<{ children: ReactNode }> = ({ children })
 
       // 정원 상태 가져오기
       const gardenResponse = await fetch(`${API_URL}/api/credits/garden/${user.id}`, { headers: getAuthHeaders() });
-      let gardenData = { total_carbon_reduced: 0 };
+      let gardenData = { total_carbon_reduced: 0, level_number: 1 }; // level_number 기본값 추가
       if (gardenResponse.ok) {
         gardenData = await gardenResponse.json();
       }
@@ -85,20 +87,26 @@ export const CreditsProvider: React.FC<{ children: ReactNode }> = ({ children })
       // 항상 백엔드에서 가져온 최신 값을 사용
       let finalCredits = creditsDataFromBalance.total_points || 0; // Use data from backend API call directly
       let finalCarbonReduced = creditsDataFromBalance.total_carbon_reduced_g || 0; // Use data from balance endpoint
+      let finalGardenLevel = gardenData.level_number || 1; // 정원 레벨 추가
 
       const newCreditsData = {
         totalCredits: finalCredits,
-        totalCarbonReduced: finalCarbonReduced, // Use the correct value
+        totalCarbonReduced: finalCarbonReduced,
         recentEarned,
         lastUpdated: new Date().toISOString(),
+        gardenLevel: finalGardenLevel, // 정원 레벨 추가
       };
       console.log("CreditsContext: newCreditsData before setCreditsData:", newCreditsData); // Debug log
       setCreditsData(newCreditsData);
       
+      // UserContext의 gardenLevel 업데이트
+      updateUser({ gardenLevel: finalGardenLevel });
+
       // localStorage에 저장하여 다른 컴포넌트에서 사용할 수 있도록 함
       localStorage.setItem('credits_total', newCreditsData.totalCredits.toString());
       localStorage.setItem('credits_carbon', newCreditsData.totalCarbonReduced.toString());
       localStorage.setItem('credits_last_update', new Date().toISOString());
+      localStorage.setItem('garden_level', newCreditsData.gardenLevel.toString()); // gardenLevel 저장
     } catch (err) {
       console.error('Error fetching credits data:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');

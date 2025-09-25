@@ -1,5 +1,6 @@
 import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+// import { useCredits } from './CreditsContext'; // useCredits 임포트 제거
 
 // 교통수단 통계 데이터
 export interface TransportStats {
@@ -75,6 +76,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = React.useState<UserPersona>(DEMO_USER);
   const [isLoading, setIsLoading] = React.useState(false);
   const { user: authUser } = useAuth();
+  // const { creditsData } = useCredits(); // useCredits 훅 사용 제거
 
   const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
 
@@ -92,22 +94,24 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [authUser]);
 
-  // localStorage에서 크레딧 데이터를 가져와서 UserContext 동기화
+  // localStorage에서 크레딧/정원 데이터를 가져와서 UserContext 동기화
   useEffect(() => {
     const updateUserFromStorage = () => {
       const storedCredits = localStorage.getItem('credits_total');
       const storedCarbon = localStorage.getItem('credits_carbon');
+      const storedGardenLevel = localStorage.getItem('garden_level'); // garden_level 가져오기
       
       if (storedCredits && storedCarbon) {
         const totalCredits = parseInt(storedCredits);
         const totalCarbonReduced = parseFloat(storedCarbon);
+        const gardenLevel = storedGardenLevel ? parseInt(storedGardenLevel) : 1; // localStorage에서 가져오거나 기본값 1
         
         setUser(prev => ({
           ...prev,
           totalCredits,
           totalCarbonReduced,
-          level: `Lv.${Math.floor(totalCredits / 100) + 1}`,
-          gardenLevel: Math.floor(totalCredits / 100) + 1,
+          level: `Lv.${Math.floor(totalCredits / 100) + 1}`, // 레벨은 크레딧으로 계산
+          gardenLevel: gardenLevel, // localStorage에서 가져온 값 사용
         }));
       }
     };
@@ -117,7 +121,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // localStorage 변경 감지
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'credits_total' || e.key === 'credits_carbon') {
+      if (e.key === 'credits_total' || e.key === 'credits_carbon' || e.key === 'garden_level') {
         updateUserFromStorage();
       }
     };
@@ -131,20 +135,18 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       window.removeEventListener('storage', handleStorageChange);
       clearInterval(interval);
     };
-  }, []);
+  }, []); // 의존성 배열에서 creditsData 제거
 
   const updateUser = (updates: Partial<UserPersona>) => {
     setUser(prev => ({
       ...prev,
       ...updates,
-      // 레벨 자동 계산
-      level: updates.totalCarbonReduced !== undefined 
-        ? `Lv.${Math.floor(updates.totalCarbonReduced / 10) + 1}`
+      // 레벨 자동 계산 (totalCredits 기반)
+      level: updates.totalCredits !== undefined 
+        ? `Lv.${Math.floor(updates.totalCredits / 100) + 1}`
         : prev.level,
-      // 정원 레벨 자동 계산
-      gardenLevel: updates.totalCarbonReduced !== undefined
-        ? Math.floor(updates.totalCarbonReduced / 10) + 1
-        : prev.gardenLevel
+      // gardenLevel은 CreditsContext에서 관리되므로 여기서 직접 계산하지 않음
+      // 필요하다면 여기서도 업데이트 가능하도록 유지
     }));
   };
 
