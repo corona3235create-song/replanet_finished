@@ -1,113 +1,202 @@
+/* MobilityTrackingPage.css */
+
 .mobility-tracking-page {
-  background: linear-gradient(to bottom, #f0fdf4 0%, #e0ffe0 50%, #d0f0d0 100%); /* Light green gradient */
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.1); /* Subtle green shadow */
-  margin: 20px auto;
-  max-width: 800px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50; /* Dark grey for text */
-  position: relative; /* Needed for pseudo-elements or absolute positioning */
-  overflow: hidden; /* Hide overflow from background elements */
-}
-
-/* Adding a subtle tree-like or foliage pattern at the bottom */
-.mobility-tracking-page::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px; /* Adjust height as needed */
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23a8e6cf" d="M0,100 L0,60 C20,80 40,40 60,60 C80,80 100,40 100,60 L100,100 Z" /></svg>') repeat-x bottom;
-  background-size: 100px 100px; /* Adjust size of the repeating pattern */
-  opacity: 0.6; /* Make it subtle */
-  z-index: -1; /* Place behind content */
-}
-
-.mobility-tracking-page h2 {
-  color: #27ae60; /* A vibrant green for headings */
-  margin-bottom: 25px;
-  font-size: 2.2em;
-  font-weight: 700;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-}
-
-/* Styles for the MobilityTracker component itself */
-.mobility-tracker-container {
-  background-color: #ffffff; /* White background for the tracker card */
-  border: 1px solid #d1e7dd; /* Light green border */
-  border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.08);
+  background: linear-gradient(135deg, #f4f9ff 0%, #eef7ff 100%);
 }
 
-.mobility-tracker-container h3 {
-  color: #28a745; /* Another shade of green */
-  font-size: 1.8em;
-  margin-bottom: 15px;
-}
-
-.mobility-tracker-container p {
-  color: #34495e;
-  font-size: 1.1em;
-}
-
-.mobility-tracker-container button {
-  transition: all 0.3s ease;
-  border-radius: 25px;
-  font-weight: 600;
-  padding: 12px 25px;
-  margin: 5px;
-}
-
-.mobility-tracker-container button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.2);
-}
-
-.mobility-tracker-container button[disabled] {
-  background-color: #cccccc !important;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Specific button colors */
-.mobility-tracker-container button.mode-selected {
-  background-color: #1abc9c !important;
-  color: white !important;
-}
-
-.mobility-tracker-container button.mode-unselected {
-  background-color: #e9ecef !important;
-  color: black !important;
-}
-
-.mobility-tracker-container button.start-tracking {
-  background-color: #28a745 !important; /* Green */
-  color: white !important;
-}
-
-.mobility-tracker-container button.stop-tracking {
-  background-color: #dc3545 !important; /* Red for stop */
-  color: white !important;
-}
-
-.mobility-tracker-container .tracking-info {
-  background-color: #e6ffe6; /* Very light green for tracking info */
-  border: 1px solid #a3e9a4;
-  border-radius: 8px;
-  padding: 15px;
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
   margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+  .content-grid {
+    grid-template-columns: 400px 1fr;
+  }
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 30px rgba(0, 87, 184, 0.08);
+  border: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f1f3f5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-activity-card h3::before {
+  content: '📡';
+}
+
+.recent-logs-card h3::before {
+  content: '📋';
+}
+
+/* Recent Logs List */
+.recent-logs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  max-height: 450px; /* Set a max height for scrollability */
+  overflow-y: auto;
+  padding-right: 10px; /* Space for scrollbar */
+}
+
+.log-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.log-item:hover {
+  background-color: #f1f3f5;
+  transform: translateX(5px);
+}
+
+.log-icon {
+  font-size: 2rem;
+  background-color: #e9ecef;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.log-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-mode {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.log-distance {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.log-rewards {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  text-align: right;
+}
+
+.log-co2 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e74c3c;
+  background-color: #fdeded;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.log-points {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #27ae60;
+  background-color: #eafaf1;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.log-time {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  width: 80px;
+  text-align: right;
+}
+
+.no-logs-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 40px 20px;
+  color: #7f8c8d;
+  height: 100%;
 }
 
-.mobility-tracker-container .tracking-info strong {
-  color: #1e8449;
+.no-logs-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.7;
 }
 
-.mobility-tracker-container .tracking-info p:last-child {
-  font-size: 1.8em;
-  color: #1abc9c;
+.no-logs-message p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 5px 0;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.loading-spinner div {
+  width: 12px;
+  height: 12px;
+  background-color: #1abc9c;
+  border-radius: 100%;
+  display: inline-block;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  margin: 0 4px;
+}
+
+.loading-spinner div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-spinner div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0);
+  } 40% { 
+    transform: scale(1.0);
+  }
+}
+
+.error-message {
+  color: #e74c3c;
+  text-align: center;
+  padding: 20px;
+  background-color: #fdeded;
+  border-radius: 8px;
 }
