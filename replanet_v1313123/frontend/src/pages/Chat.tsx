@@ -304,41 +304,10 @@ const Chat: React.FC = () => {
     setMessages((prev) => [...prev, followupMessage]);
   };
 
-  // ✅ 추천 질문 버튼 클릭
-  const handleQuickSend = async (text: string) => { // Make it async
-    const userMessage: Message = { sender: "user", text };
-    setMessages((prev) => [...prev, userMessage]);
-    setIsLoading(true); // Set loading state
 
-    if (text === "AI 챌린지 추천해줘" || text === "탄소 절감 팁 알려줘" || text === "목표 달성 전략 알려줘") {
-      await sendChatMessage(text); // Send to chatbot endpoint for AI routing
-    } else if (text.includes("탄소량") || text.includes("절약한 탄소")) {
-      await handleDashboardReply("절약량");
-    } else if (text.includes("포인트")) {
-      await handleDashboardReply("포인트");
-    } else if (text.includes("정원")) {
-      await handleDashboardReply("정원");
-    } else if (text.includes("챌린지 진행 상황")) {
-      await handleDashboardReply("챌린지");
-    } else {
-      // For other general questions, still send to chatbot for general search/knowledge base
-      await sendChatMessage(text);
-    }
-  };
 
-  // ✅ 추천 질문 리스트
-  const recommendedQuestions = [
-    "내가 절약한 탄소량은?",
-    "내가 모은 포인트는?",
-    "내 정원 레벨은?",
-    "챌린지 진행 상황 알려줘",
-    "AI 챌린지 추천해줘",
-    "탄소 절감 팁 알려줘", // New: 탄소 절감 팁
-    "목표 달성 전략 알려줘", // New: 목표 달성 전략
-    "포인트 적립 방법은?",
-    "정원 관리 팁 주세요",
-    "환경 친화적인 생활 방법은?",
-  ];
+  // ✅ 추천 질문 리스트 (제거됨)
+  const recommendedQuestions: string[] = [];
 
   // ✅ 메시지 전송
   const handleSendMessage = async () => {
@@ -437,7 +406,7 @@ const Chat: React.FC = () => {
           <div className="empty-state">
             <div className="empty-icon">💬</div>
             <h4>대화를 시작해보세요!</h4>
-            <p>아래 추천 질문을 클릭하거나 직접 메시지를 입력해보세요.</p>
+            <p>메시지를 입력해보세요.</p>
           </div>
         ) : (
           messages.map((msg, index) => (
@@ -487,18 +456,7 @@ const Chat: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {!isPreview && (
-        <div className="quick-questions-section">
-          <h4>💡 추천 질문</h4>
-          <div className="quick-questions">
-            {recommendedQuestions.map((q, idx) => (
-              <button key={idx} onClick={() => handleQuickSend(q)} className="quick-question-btn">
-                {q}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+
 
       <div className="input-area">
   <div className="input-container wide">
