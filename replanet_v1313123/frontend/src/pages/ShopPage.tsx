@@ -8,10 +8,17 @@ import './ShopPage.css';
 
 function ShopPage() {
   const { purchaseItem, inventory } = useGarden();
-  const { creditsData } = useCredits();
+  const { creditsData, refreshCredits } = useCredits();
 
-  const handleObjectBuy = (object: GardenObject) => {
-    purchaseItem(object);
+  const handleObjectBuy = async (object: GardenObject) => {
+    try {
+      await purchaseItem(object);
+      await refreshCredits();
+    } catch (error) {
+      // The error is already logged in the useGarden hook, 
+      // but you could add additional user-facing feedback here if needed.
+      console.error("Failed to complete purchase on ShopPage:", error);
+    }
   };
 
   return (

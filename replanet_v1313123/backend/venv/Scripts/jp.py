@@ -1,4 +1,4 @@
-#!C:\Users\coron\OneDrive\바탕 화면\2025.2-2\seoul25_AI_ht\gitHub\챌린지와 이동거리 측정\replanet_v1313123\backend\venv\Scripts\python.exe
+#!C:\Users\이승재\Downloads\서울AI해커톤\replanet_finished\replanet_v1313123\backend\venv\Scripts\python.exe
 
 import sys
 import json
