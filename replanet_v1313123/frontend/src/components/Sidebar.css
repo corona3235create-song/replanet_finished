@@ -29,6 +29,10 @@
   transition: all 0.3s ease;
 }
 
+.logo-image {
+  margin-left: 25px; /* Adjust as needed */
+}
+
 .sidebar-logo-link:hover {
   transform: scale(1.05);
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);

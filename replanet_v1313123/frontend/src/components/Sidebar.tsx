@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
     <div className="sidebar">
       <div className="sidebar-header">
         <Link to="/" className="sidebar-logo-link" onClick={handleLinkClick}>
-          <h2 className="sidebar-title">ECO 🌱 LIFE</h2>
+          <img src="/ourlogo.png" alt="replanet logo" className="logo-image" style={{ height: '50px' }} />
         </Link>
       </div>
       

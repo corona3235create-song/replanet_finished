@@ -44,8 +44,8 @@ import { GroupProvider } from "./contexts/GroupContext";
 // 로고 컴포넌트
 const Logo: React.FC = () => (
   <h1 className="logo">
-    <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-      ECO 🌱 LIFE
+    <Link to="/">
+      <img src="/ourlogo.png" alt="replanet logo" className="logo-image" style={{ height: '40px' }} />
     </Link>
   </h1>
 );

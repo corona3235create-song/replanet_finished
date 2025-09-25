@@ -73,7 +73,7 @@ const Signup: React.FC = () => {
       <div className="auth-card">
         <div className="auth-header">
           <Link to="/" className="auth-logo">
-            <h1>ECO 🌱 LIFE</h1>
+            <img src="/ourlogo.png" alt="replanet logo" className="logo-image" style={{ height: '40px' }} />
           </Link>
           <h2>회원가입</h2>
           <p>환경 친화적인 생활을 시작해보세요</p>

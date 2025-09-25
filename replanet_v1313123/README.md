@@ -44,7 +44,7 @@ cd backend
 
 가상 환경 생성 및 활성화
 
-python3 -m venv venv
+python -m venv venv
 source venv/bin/activate
 
 
