@@ -1407,3 +1407,8 @@ main.with-sidebar {
   color: white;
   border-color: var(--primary-green);
 }
+
+main.auth-page {
+  padding-top: 0;
+  margin-left: 0;
+}

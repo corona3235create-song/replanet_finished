@@ -188,7 +188,7 @@ function AppContent() {
         </header>
       )}
 
-      <main className={!isPreview && !isAuthPage ? "with-sidebar" : ""}>
+      <main className={!isPreview && !isAuthPage ? "with-sidebar" : "auth-page"}>
         <Routes>
           <Route
             path="/"
