@@ -386,6 +386,13 @@ export const CreditsProvider: React.FC<{ children: ReactNode }> = ({ children })
   // 컴포넌트 마운트 시 데이터 가져오기
   useEffect(() => {
     fetchCreditsData();
+
+    const handleLogAdded = () => fetchCreditsData();
+    window.addEventListener('logAdded', handleLogAdded);
+
+    return () => {
+      window.removeEventListener('logAdded', handleLogAdded);
+    };
   }, [user?.id]); // user.id가 변경될 때마다 데이터 다시 가져오기
 
   // localStorage 변경 감지 (다른 탭에서의 크레딧 변경)
